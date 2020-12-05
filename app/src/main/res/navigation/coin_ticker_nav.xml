@@ -31,9 +31,5 @@
         android:id="@+id/favouriteCoinListFragment"
         android:name="com.app.bitcointickerapp.ui.view.FavouriteCoinListFragment"
         android:label="fragment_favourite_coin_list"
-        tools:layout="@layout/fragment_favourite_coin_list" >
-        <action
-            android:id="@+id/action_favouriteCoinListFragment_to_coinDetailFragment"
-            app:destination="@id/coinDetailFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_favourite_coin_list" />
 </navigation>
