@@ -9,11 +9,11 @@ import com.app.bitcointickerapp.data.model.Coin
 interface CoinDao {
     //Data Access Object
     @Insert
-    suspend fun insertAll(vararg coins: Coin): List<Long>
+    suspend fun insertAll(coins: List<Coin>): List<Long>
 
-    /* @Query("SELECT * FROM coin")
+     @Query("SELECT * FROM coin")
      suspend fun getAllCoins(): List<Coin>
 
      @Query("SELECT * FROM coin WHERE coinName=:name ")
-     suspend fun getCoins(name: String): List<Coin>*/
+     suspend fun getCoins(name: String): List<Coin>
 }

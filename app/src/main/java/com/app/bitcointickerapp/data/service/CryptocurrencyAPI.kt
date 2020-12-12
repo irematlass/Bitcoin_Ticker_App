@@ -12,5 +12,5 @@ interface CryptocurrencyAPI {
     fun getCoins():Single<List<Coin>>
 
     @GET("coins/{id}")
-    fun getCoinDetail(@Path("id") id: String):Single<List<CoinDetail>>
+    fun getCoinDetail(@Path("id") id: String):Single<CoinDetail>
 }

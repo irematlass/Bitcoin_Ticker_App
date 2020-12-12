@@ -1,5 +1,7 @@
 package com.app.bitcointickerapp.ui.viewmodel
 
+import android.app.Application
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.app.bitcointickerapp.data.model.Coin
 import com.app.bitcointickerapp.data.repository.CoinRepository
 import com.app.bitcointickerapp.data.service.CoinDao
+import com.app.bitcointickerapp.data.service.CoinDatabase
 import com.app.bitcointickerapp.data.service.CryptocurrencyAPIService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,8 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class CoinListViewModel @Inject constructor(private val coinApi: CryptocurrencyAPIService/*,
-                                            private val coinDao: CoinDao*/):ViewModel(),CoroutineScope {
+class CoinListViewModel @Inject constructor(private val coinRepository: CoinRepository,application: Application):BaseViewModel(application) {
 
     private val disposable=CompositeDisposable()
 
@@ -35,7 +37,7 @@ class CoinListViewModel @Inject constructor(private val coinApi: CryptocurrencyA
         coinLoading.value=true
 
         disposable.add(
-            coinApi.getCoinsData()
+            coinRepository.getCoinsData()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object:DisposableSingleObserver<List<Coin>>(){
@@ -61,7 +63,8 @@ class CoinListViewModel @Inject constructor(private val coinApi: CryptocurrencyA
     private fun storeInSQLite(coins:List<Coin>){
 
         launch {
-           // var temp=coinDao.insertAll(*coins.toTypedArray())
+            //var temp=coinRepository.insertCoinList(coins)
+           // Log.d("mydb",temp.toString())
         }
         showCoins(coins)
     }

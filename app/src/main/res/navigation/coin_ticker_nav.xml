@@ -24,8 +24,7 @@
         tools:layout="@layout/fragment_coin_detail" >
         <argument
             android:name="coinUuid"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/favouriteCoinListFragment"

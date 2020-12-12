@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.app.bitcointickerapp.data.model.Coin
 
 @Database(entities = arrayOf(Coin::class), version = 1)
-abstract class CoinDatabase : RoomDatabase() {
+abstract class CoinDatabase  : RoomDatabase() {
     abstract fun coinDao(): CoinDao
 
     //Singleton
@@ -17,7 +17,7 @@ abstract class CoinDatabase : RoomDatabase() {
 
         private val lock = Any()
 
-        operator fun invoke(context: Context) = instance ?: synchronized(lock) {
+         fun getDatabase(context: Context) = instance ?: synchronized(lock) {
             instance ?: makeDatabase(context).also {
                 instance = it
             }

@@ -1,8 +1,11 @@
 package com.app.bitcointickerapp.data.model
 
+import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 
 data class CoinDetail(
+    @ColumnInfo(name = "coinName")
+    val name: String,
     @SerializedName("market_data")
     val marketData: MarketData?,
 
