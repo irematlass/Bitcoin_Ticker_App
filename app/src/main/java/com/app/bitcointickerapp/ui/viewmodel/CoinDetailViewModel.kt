@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.app.bitcointickerapp.data.model.Coin
 import com.app.bitcointickerapp.data.model.CoinDetail
 import com.app.bitcointickerapp.data.repository.CoinRepository
+import com.google.firebase.firestore.SetOptions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -35,5 +36,27 @@ class CoinDetailViewModel @Inject constructor(private val coinRepository: CoinRe
                 })
         )
 
+    }
+    fun addFavouriteCoin(coin: HashMap<String, String>, onResult: (String?) -> Unit){
+        val collectionReference = coinRepository.saveFavoriteCoin()
+        collectionReference.document(coin["id"]!!)
+            .set(coin, SetOptions.merge())
+            .addOnSuccessListener {
+                onResult(null)
+            }
+            .addOnFailureListener {
+                onResult(it.message)
+            }
+    }
+    fun deleteFavouriteCoin(coin: HashMap<String, String>, onResult: (String?) -> Unit){
+        val collectionReference = coinRepository.deleteFavoriteCoin()
+        collectionReference.document(coin["id"]!!)
+            .delete()
+            .addOnSuccessListener {
+                onResult(null)
+            }
+            .addOnFailureListener {
+                onResult(it.message)
+            }
     }
 }

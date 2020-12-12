@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class CoinDetail(
     @ColumnInfo(name = "coinName")
     val name: String,
+    @ColumnInfo(name = "coinSymbol")
+    val symbol: String,
     @SerializedName("market_data")
     val marketData: MarketData?,
 
