@@ -1,4 +1,4 @@
-package com.app.bitcointickerapp.data.service
+package com.app.bitcointickerapp.data.db
 
 import android.content.Context
 import androidx.room.Database
@@ -17,8 +17,12 @@ abstract class CoinDatabase  : RoomDatabase() {
 
         private val lock = Any()
 
-         fun getDatabase(context: Context) = instance ?: synchronized(lock) {
-            instance ?: makeDatabase(context).also {
+         fun getDatabase(context: Context) = instance
+             ?: synchronized(lock) {
+            instance
+                ?: makeDatabase(
+                    context
+                ).also {
                 instance = it
             }
         }
