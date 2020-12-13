@@ -32,23 +32,28 @@ class CoinRepository @Inject constructor(
         return coinDao.getAllCoins()
     }
 
+    suspend fun deleteAllCoins() {
+        return coinDao.deleteAllCoins()
+    }
+
     suspend fun getSearchCoins(searchName: String): List<Coin> {
         return coinDao.getCoins(searchName)
     }
 
-    fun signInFirebase(): Task<AuthResult> {
-        return firebaseManager.signInFirebase()
+
+    suspend fun signInFirebase(email: String, password: String): Task<AuthResult> {
+        return firebaseManager.signInFirebase(email, password)
     }
 
-    fun saveFavoriteCoin(): CollectionReference {
+    suspend fun saveFavoriteCoin(): CollectionReference {
         return firebaseManager.favoriteCoinsList()
     }
 
-    fun deleteFavoriteCoin(): CollectionReference {
+    suspend fun deleteFavoriteCoin(): CollectionReference {
         return firebaseManager.favoriteCoinsList()
     }
 
-    fun getFavoriteCoins(): CollectionReference {
+    suspend fun getFavoriteCoins(): CollectionReference {
         return firebaseManager.favoriteCoinsList()
     }
 }

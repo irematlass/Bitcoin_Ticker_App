@@ -10,17 +10,19 @@ import javax.inject.Inject
 class FirebaseManager @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore
-){
-     fun signInFirebase(): Task<AuthResult> {
+) {
+    private fun getCurrentUserId(): String? = firebaseAuth.currentUser?.uid
+    fun signInFirebase(email: String, password: String): Task<AuthResult> {
         return firebaseAuth.signInWithEmailAndPassword(
-            "bitcoin.ticker@gmail.com",
-            "bitcoin"
+            email, password
         )
     }
 
-     fun favoriteCoinsList(): CollectionReference {
-        return firebaseFirestore.collection("users").document("ewCFUgg4DhuZVW8Or4us")
-            .collection("myfavoriteCoins")
+    fun favoriteCoinsList(): CollectionReference {
+        getCurrentUserId().also { uid ->
+            return firebaseFirestore.collection("Favourites").document(uid!!)
+                .collection("Coins")
+        }
     }
 
 }

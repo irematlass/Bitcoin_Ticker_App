@@ -2,30 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.LoginActivity">
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/password_editText_login"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Password"
+        android:background="@drawable/custom_edittext"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:text="bitcoin"
+        app:layout_constraintEnd_toEndOf="@+id/email_editText_login"
+        app:layout_constraintStart_toStartOf="@+id/email_editText_login"
+        app:layout_constraintTop_toBottomOf="@+id/email_editText_login" />
+
+    <Button
+        android:id="@+id/login_btn_login"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:text="Login"
+        android:background="@drawable/custom_button"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/password_editText_login"
+        app:layout_constraintStart_toStartOf="@+id/password_editText_login"
+        app:layout_constraintTop_toBottomOf="@+id/password_editText_login" />
+
+    <EditText
+        android:id="@+id/email_editText_login"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/custom_edittext"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="20dp"
+        android:text="bitcoin.ticker@gmail.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="118dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="75dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:layout_width="211dp"
+        android:layout_height="214dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/coin" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginBottom="344dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:srcCompat="@drawable/login_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,6 +25,7 @@ class CoinDetailFragment : Fragment() {
     lateinit var coinDetailViewModel: CoinDetailViewModel
 
     private var coinUUID = ""
+    private var isfavDetail = false
     private var coinSymbol = ""
     private var coinName = ""
 
@@ -46,7 +47,8 @@ class CoinDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            coinUUID = CoinDetailFragmentArgs.fromBundle(it).coinUuid.toString()
+            coinUUID = CoinDetailFragmentArgs.fromBundle(it).coinUuid
+            isfavDetail = CoinDetailFragmentArgs.fromBundle(it).isFavDetail
         }
         coinDetailViewModel.getData(coinUUID)
         observeLiveData()
@@ -74,22 +76,41 @@ class CoinDetailFragment : Fragment() {
                 "id" to coinUUID,
                 "name" to coinName,
                 "symbol" to coinSymbol
-            )
 
-            coinDetailViewModel.addFavouriteCoin(coin) {
-                if (it == null) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Added your favourite List",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Error",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.d("faverror", it)
+            )
+            if (isfavDetail) {
+                coinDetailViewModel.deleteFavouriteCoin(coin) {
+                    if (it == null) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Delete your favourite List",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("faverror", it)
+                    }
+                }
+            } else {
+                coinDetailViewModel.addFavouriteCoin(coin) {
+                    if (it == null) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Added your favourite List",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("faverror", it)
+                    }
                 }
             }
         }
@@ -107,6 +128,7 @@ class CoinDetailFragment : Fragment() {
                     detail.marketData?.priceChancePercentage_24h.toString()
                 coinDetail_name_txt.text = detail.name
                 coinSymbol = detail.symbol
+                coinName = detail.name
 
 
             }

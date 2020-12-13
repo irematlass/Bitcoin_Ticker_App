@@ -37,6 +37,7 @@ data class CurrentPrice(
 data class CoinImage(
     @SerializedName("large")
     val imageLarge: String?
+
 )
 
 data class CoinDescription(

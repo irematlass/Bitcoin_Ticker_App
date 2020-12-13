@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.bitcointickerapp.R
 import com.app.bitcointickerapp.ui.adapter.CoinAdapter
@@ -17,10 +19,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CoinListFragment : Fragment() {
     @Inject
-    lateinit var coinViewModel:CoinListViewModel
+    lateinit var coinViewModel: CoinListViewModel
+
+    private lateinit var searchView: SearchView
 
 
-    private val coinAdapter= CoinAdapter(arrayListOf())
+    private val coinAdapter = CoinAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,27 +41,33 @@ class CoinListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        searchView = view.findViewById(R.id.coinList_search)
         coinViewModel.refreshData()
 
-        coinList.layoutManager=LinearLayoutManager(context)
-        coinList.adapter=coinAdapter
+        coinList.layoutManager = LinearLayoutManager(context)
+        coinList.adapter = coinAdapter
 
         swipeRefreshLayout.setOnRefreshListener {
-            coinList.visibility=View.GONE
-            coinListError.visibility=View.GONE
-            coinListLoading.visibility=View.VISIBLE
+            coinList.visibility = View.GONE
+            coinListError.visibility = View.GONE
+            coinListLoading.visibility = View.VISIBLE
             coinViewModel.refreshData()
-            swipeRefreshLayout.isRefreshing=false
+            swipeRefreshLayout.isRefreshing = false
         }
-
+        favList_btn.setOnClickListener {
+            val action =
+                CoinListFragmentDirections.actionCoinListFragmentToFavouriteCoinListFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+        filterList()
         observeLiveData()
 
     }
-    fun observeLiveData(){
-        coinViewModel.coins.observe(viewLifecycleOwner, Observer {coins->
+
+    fun observeLiveData() {
+        coinViewModel.coins.observe(viewLifecycleOwner, Observer { coins ->
             coins?.let {
-                coinList.visibility=View.VISIBLE
+                coinList.visibility = View.VISIBLE
                 coinAdapter.updateCoinList(coins)
             }
         })
@@ -83,5 +93,27 @@ class CoinListFragment : Fragment() {
             }
 
         })
+    }
+
+    fun filterList() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(value: String?): Boolean {
+                if (value != null && value != "") {
+                    coinViewModel.filterCoinList(value)
+                    searchView.clearFocus()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText == "") {
+                    coinViewModel.getCoinList()
+
+                }
+                return false
+
+            }
+        })
+
     }
 }

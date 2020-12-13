@@ -4,18 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bitcointickerapp.R
 import com.app.bitcointickerapp.data.model.Coin
-import com.app.bitcointickerapp.ui.view.CoinListFragmentDirections
+import com.app.bitcointickerapp.ui.view.FavouriteCoinListFragmentDirections
 import kotlinx.android.synthetic.main.coin_list_item.view.*
 import java.util.ArrayList
-import javax.inject.Inject
 
-class CoinAdapter(val coinList: ArrayList<Coin>) :
-    RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
+class FavouriteCoinAdapter(val favList: ArrayList<Coin>) :
+    RecyclerView.Adapter<FavouriteCoinAdapter.CoinViewHolder>() {
     class CoinViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
     }
@@ -23,32 +20,31 @@ class CoinAdapter(val coinList: ArrayList<Coin>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.coin_list_item, parent, false)
-        return CoinViewHolder(view)
+        return FavouriteCoinAdapter.CoinViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return coinList.size
+        return favList.size
     }
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
-        holder.view.name.text = coinList[position].name
-        holder.view.symbol.text = coinList[position].symbol
+        holder.view.name.text = favList[position].name
+        holder.view.symbol.text = favList[position].symbol
+
         holder.view.setOnClickListener {
-            val action = CoinListFragmentDirections.actionCoinListFragmentToCoinDetailFragment(
-                coinList[position].coinId,
-                false
-            )
-
-
+            val action =
+                FavouriteCoinListFragmentDirections.actionFavouriteCoinListFragmentToCoinDetailFragment(
+                    favList[position].coinId,
+                    true
+                )
             Navigation.findNavController(it).navigate(action)
         }
     }
 
     fun updateCoinList(newCoinList: List<Coin>) {
-        coinList.clear()
-        coinList.addAll(newCoinList)
+        favList.clear()
+        favList.addAll(newCoinList)
         notifyDataSetChanged()
 
     }
-
 }

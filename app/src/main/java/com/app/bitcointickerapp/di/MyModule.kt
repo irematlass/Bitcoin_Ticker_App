@@ -10,6 +10,8 @@ import com.app.bitcointickerapp.data.service.CryptocurrencyAPI
 import com.app.bitcointickerapp.data.service.CryptocurrencyAPIService
 import com.app.bitcointickerapp.ui.viewmodel.CoinDetailViewModel
 import com.app.bitcointickerapp.ui.viewmodel.CoinListViewModel
+import com.app.bitcointickerapp.ui.viewmodel.FavouriteListViewModel
+import com.app.bitcointickerapp.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -26,6 +28,18 @@ class MyModule {
     @Provides
     fun provideCoinViewModel(coinRepository: CoinRepository): CoinListViewModel {
         return CoinListViewModel(coinRepository, application = Application())
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavouriteListViewModel(coinRepository: CoinRepository): FavouriteListViewModel {
+        return FavouriteListViewModel(coinRepository, application = Application())
+    }
+
+    @Singleton
+    @Provides
+    fun provideLoginListViewModel(coinRepository: CoinRepository): LoginViewModel {
+        return LoginViewModel(coinRepository, application = Application())
     }
 
     @Singleton
@@ -49,8 +63,12 @@ class MyModule {
 
     @Singleton
     @Provides
-    fun provideCoinRepository(coinApi: CryptocurrencyAPI, coinDao: CoinDao,firebaseManager:FirebaseManager) =
-        CoinRepository(coinApi, coinDao,firebaseManager)
+    fun provideCoinRepository(
+        coinApi: CryptocurrencyAPI,
+        coinDao: CoinDao,
+        firebaseManager: FirebaseManager
+    ) =
+        CoinRepository(coinApi, coinDao, firebaseManager)
 
     @Singleton
     @Provides
@@ -60,6 +78,7 @@ class MyModule {
     ): FirebaseManager {
         return FirebaseManager(firebaseAuth, firebaseFirestore)
     }
+
     @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
@@ -68,8 +87,4 @@ class MyModule {
     @Provides
     fun provideFirebaseDatabase(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    /* @Provides
-     fun provideCoinListAdapter(coinList: ArrayList<Coin>): CoinAdapter {
-         return CoinAdapter(coinList)
-     }*/
 }

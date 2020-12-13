@@ -11,9 +11,12 @@ interface CoinDao {
     @Insert
     suspend fun insertAll(coins: List<Coin>): List<Long>
 
-     @Query("SELECT * FROM coin")
-     suspend fun getAllCoins(): List<Coin>
+    @Query("SELECT * FROM coin")
+    suspend fun getAllCoins(): List<Coin>
 
-     @Query("SELECT * FROM coin WHERE coinName=:name ")
-     suspend fun getCoins(name: String): List<Coin>
+    @Query("SELECT * FROM coin WHERE coinName LIKE '%' ||:name|| '%' OR coinSymbol LIKE '%' || :name|| '%'")
+    suspend fun getCoins(name: String): List<Coin>
+
+    @Query("DELETE FROM coin")
+    suspend fun deleteAllCoins()
 }

@@ -9,8 +9,8 @@ import retrofit2.http.Path
 interface CryptocurrencyAPI {
 
     @GET("coins/list")
-    fun getCoins():Single<List<Coin>>
+    fun getCoins(): Single<List<Coin>>
 
     @GET("coins/{id}")
-    fun getCoinDetail(@Path("id") id: String):Single<CoinDetail>
+    fun getCoinDetail(@Path("id") id: String): Single<CoinDetail>
 }
